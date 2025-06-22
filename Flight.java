@@ -1,4 +1,6 @@
+
 public class Flight {
+
     private String flightNumber;
     private String destination;
     private String departureTime;
@@ -6,9 +8,8 @@ public class Flight {
     private double price;
     private int availableSeats;
 
-    
-    public Flight(String flightNumber, String destination, String departureTime, 
-                  String arrivalTime, double price, int availableSeats) {
+    public Flight(String flightNumber, String destination, String departureTime,
+            String arrivalTime, double price, int availableSeats) {
         this.flightNumber = flightNumber;
         this.destination = destination;
         this.departureTime = departureTime;
@@ -21,62 +22,49 @@ public class Flight {
         this.flightNumber = flightNumber;
     }
 
-
-
-
     public void setDestination(String destination) {
         this.destination = destination;
     }
-
-
-
 
     public String getDepartureTime() {
         return departureTime;
     }
 
-
-
-
     public void setDepartureTime(String departureTime) {
         this.departureTime = departureTime;
     }
-
-
-
 
     public String getArrivalTime() {
         return arrivalTime;
     }
 
-
-
-
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
-
-
-
 
     public void setPrice(double price) {
         this.price = price;
     }
 
-
-
-
     public void setAvailableSeats(int availableSeats) {
         this.availableSeats = availableSeats;
     }
 
+    public String getFlightNumber() {
+        return flightNumber;
+    }
 
+    public String getDestination() {
+        return destination;
+    }
 
+    public double getPrice() {
+        return price;
+    }
 
-    public String getFlightNumber() { return flightNumber; }
-    public String getDestination() { return destination; }
-    public double getPrice() { return price; }
-    public int getAvailableSeats() { return availableSeats; }
+    public int getAvailableSeats() {
+        return availableSeats;
+    }
 
     public void reduceSeats(int num) {
         if (num <= availableSeats) {
@@ -86,9 +74,4 @@ public class Flight {
         }
     }
 
-    public void displayFlightDetails() {
-        System.out.println("Flight: " + flightNumber + ", Destination: " + destination +
-                           ", Departure: " + departureTime + ", Arrival: " + arrivalTime +
-                           ", Price: $" + price + ", Seats Available: " + availableSeats);
-    }
 }

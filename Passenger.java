@@ -1,4 +1,6 @@
+
 public class Passenger {
+
     private String passengerID;
     private String name;
     private String address;
@@ -6,8 +8,8 @@ public class Passenger {
     private String email;
     private String passportNumber;
 
-    public Passenger(String passengerID, String name, String address, String phoneNumber, 
-                     String email, String passportNumber) {
+    public Passenger(String passengerID, String name, String address, String phoneNumber,
+            String email, String passportNumber) {
         this.passengerID = passengerID;
         this.name = name;
         this.address = address;
@@ -15,8 +17,6 @@ public class Passenger {
         this.email = email;
         this.passengerID = passportNumber;
     }
-
-    
 
     public void setPassengerID(String passengerID) {
         this.passengerID = passengerID;
@@ -58,12 +58,4 @@ public class Passenger {
         this.passportNumber = passportNumber;
     }
 
-    public void displayPassengerDetails() {
-        System.out.println("Passenger ID: " + passengerID);
-        System.out.println("Name: " + name);
-        System.out.println("Address: " + address);
-        System.out.println("Phone: " + phoneNumber);
-        System.out.println("Email: " + email);
-        System.out.println("Passport: " + passportNumber);
-    }
 }

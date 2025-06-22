@@ -89,16 +89,5 @@ public class Ticket {
         this.passenger = passenger;
     }
 
-
-
-    public void displayTicketDetails() {
-        System.out.println("Ticket ID: " + ticketID);
-        System.out.println("Seat: " + seatNumber);
-        System.out.println("Issue Date: " + issueDate);
-        System.out.println("Total Cost: $" + totalCost);
-        System.out.println("Flight Details:");
-        flight.displayFlightDetails();
-        System.out.println("Passenger Details:");
-        passenger.displayPassengerDetails();
-    }
+    
 }
