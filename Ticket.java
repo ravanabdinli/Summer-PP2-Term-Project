@@ -17,6 +17,80 @@ public class Ticket {
         this.totalCost = flight.getPrice();
     }
 
+
+    
+    public String getTicketID() {
+        return ticketID;
+    }
+
+
+
+    public void setTicketID(String ticketID) {
+        this.ticketID = ticketID;
+    }
+
+
+
+    public String getSeatNumber() {
+        return seatNumber;
+    }
+
+
+
+    public void setSeatNumber(String seatNumber) {
+        this.seatNumber = seatNumber;
+    }
+
+
+
+    public String getIssueDate() {
+        return issueDate;
+    }
+
+
+
+    public void setIssueDate(String issueDate) {
+        this.issueDate = issueDate;
+    }
+
+
+
+    public double getTotalCost() {
+        return totalCost;
+    }
+
+
+
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
+    }
+
+
+
+    public Flight getFlight() {
+        return flight;
+    }
+
+
+
+    public void setFlight(Flight flight) {
+        this.flight = flight;
+    }
+
+
+
+    public Passenger getPassenger() {
+        return passenger;
+    }
+
+
+
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
+    }
+
+
+
     public void displayTicketDetails() {
         System.out.println("Ticket ID: " + ticketID);
         System.out.println("Seat: " + seatNumber);
