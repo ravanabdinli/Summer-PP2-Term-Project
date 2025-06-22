@@ -1,15 +1,15 @@
 public class Ticket {
-    private String ticketID;
+    private static int _autoIncId=0;
+    private int id;
     private String seatNumber;
     private String issueDate;
     private double totalCost;
     private Flight flight;
     private Passenger passenger;
 
-    // Constructor
     public Ticket(String ticketID, String seatNumber, String issueDate, 
                   Flight flight, Passenger passenger) {
-        this.ticketID = ticketID;
+        this.id = _autoIncId++;
         this.seatNumber = seatNumber;
         this.issueDate = issueDate;
         this.flight = flight;
@@ -19,23 +19,13 @@ public class Ticket {
 
 
     
-    public String getTicketID() {
-        return ticketID;
+    public int getId() {
+        return id;
     }
-
-
-
-    public void setTicketID(String ticketID) {
-        this.ticketID = ticketID;
-    }
-
-
 
     public String getSeatNumber() {
         return seatNumber;
     }
-
-
 
     public void setSeatNumber(String seatNumber) {
         this.seatNumber = seatNumber;

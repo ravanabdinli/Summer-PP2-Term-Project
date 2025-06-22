@@ -1,6 +1,8 @@
 
 public class Flight {
 
+    private static int _autoIncId=1;
+    private int id;
     private String flightNumber;
     private String destination;
     private String departureTime;
@@ -10,12 +12,17 @@ public class Flight {
 
     public Flight(String flightNumber, String destination, String departureTime,
             String arrivalTime, double price, int availableSeats) {
+        this.id=_autoIncId++;
         this.flightNumber = flightNumber;
         this.destination = destination;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.price = price;
         this.availableSeats = availableSeats;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setFlightNumber(String flightNumber) {
@@ -64,14 +71,6 @@ public class Flight {
 
     public int getAvailableSeats() {
         return availableSeats;
-    }
-
-    public void reduceSeats(int num) {
-        if (num <= availableSeats) {
-            availableSeats -= num;
-        } else {
-            System.out.println("Not enough seats available!");
-        }
     }
 
 }

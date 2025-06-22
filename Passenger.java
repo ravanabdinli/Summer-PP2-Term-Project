@@ -1,25 +1,29 @@
 
 public class Passenger {
 
-    private String passengerID;
+    private static int _autoIncId=0;
+    private int id;
     private String name;
     private String address;
     private String phoneNumber;
     private String email;
     private String passportNumber;
 
-    public Passenger(String passengerID, String name, String address, String phoneNumber,
-            String email, String passportNumber) {
-        this.passengerID = passengerID;
+    public Passenger(String name, String address, String phoneNumber, String email, String passportNumber) {
+        this.id=_autoIncId++;
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.passengerID = passportNumber;
+        this.passportNumber = passportNumber;
     }
 
-    public void setPassengerID(String passengerID) {
-        this.passengerID = passengerID;
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
@@ -58,4 +62,5 @@ public class Passenger {
         this.passportNumber = passportNumber;
     }
 
+    
 }
