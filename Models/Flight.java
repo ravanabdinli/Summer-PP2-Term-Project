@@ -1,19 +1,22 @@
+package Models;
 
 public class Flight {
 
     private static int _autoIncId=1;
     private int id;
     private String flightNumber;
+    private String origin;
     private String destination;
     private String departureTime;
     private String arrivalTime;
     private double price;
     private int availableSeats;
 
-    public Flight(String flightNumber, String destination, String departureTime,
+    public Flight(String flightNumber, String origin, String destination, String departureTime,
             String arrivalTime, double price, int availableSeats) {
         this.id=_autoIncId++;
         this.flightNumber = flightNumber;
+        this.origin=origin;
         this.destination = destination;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
@@ -27,6 +30,14 @@ public class Flight {
 
     public void setFlightNumber(String flightNumber) {
         this.flightNumber = flightNumber;
+    }
+
+    public void setOrigin(String origin){
+        this.origin=origin;
+    }
+
+    public String getOrigin(){
+        return origin;
     }
 
     public void setDestination(String destination) {

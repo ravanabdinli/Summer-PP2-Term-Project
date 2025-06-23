@@ -1,7 +1,8 @@
+package Models;
 
 public class Passenger {
 
-    private static int _autoIncId=0;
+    private static int _autoIncId=1;
     private int id;
     private String name;
     private String address;
