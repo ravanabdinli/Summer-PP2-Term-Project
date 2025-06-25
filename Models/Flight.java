@@ -2,7 +2,7 @@ package Models;
 
 public class Flight {
 
-    private static int _autoIncId=1;
+    private static int _autoIncId = 1;
     private int id;
     private String flightNumber;
     private String origin;
@@ -14,9 +14,9 @@ public class Flight {
 
     public Flight(String flightNumber, String origin, String destination, String departureTime,
             String arrivalTime, double price, int availableSeats) {
-        this.id=_autoIncId++;
+        this.id = _autoIncId++;
         this.flightNumber = flightNumber;
-        this.origin=origin;
+        this.origin = origin;
         this.destination = destination;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
@@ -24,36 +24,68 @@ public class Flight {
         this.availableSeats = availableSeats;
     }
 
+    public Flight(int id, String flightNumber, String origin, String destination, String departureTime,
+            String arrivalTime, double price, int availableSeats) {
+        this.id = id;
+        this.flightNumber = flightNumber;
+        this.origin = origin;
+        this.destination = destination;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+        this.price = price;
+        this.availableSeats = availableSeats;
+    }
+
+    public static void setAutoIncId(int newId) {
+        _autoIncId = newId;
+    }
+
     public int getId() {
         return id;
     }
 
-    public void setFlightNumber(String flightNumber) {
-        this.flightNumber = flightNumber;
+    public String getFlightNumber() {
+        return flightNumber;
     }
 
-    public void setOrigin(String origin){
-        this.origin=origin;
-    }
-
-    public String getOrigin(){
+    public String getOrigin() {
         return origin;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+    public String getDestination() {
+        return destination;
     }
 
     public String getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(String departureTime) {
-        this.departureTime = departureTime;
-    }
-
     public String getArrivalTime() {
         return arrivalTime;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public void setDepartureTime(String departureTime) {
+        this.departureTime = departureTime;
     }
 
     public void setArrivalTime(String arrivalTime) {
@@ -68,20 +100,8 @@ public class Flight {
         this.availableSeats = availableSeats;
     }
 
-    public String getFlightNumber() {
-        return flightNumber;
+    @Override
+    public String toString() {
+        return id + ";" + flightNumber + ";" + origin + ";" + destination + ";" + departureTime + ";" + arrivalTime + ";" + price + ";" + availableSeats;
     }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public int getAvailableSeats() {
-        return availableSeats;
-    }
-
 }
