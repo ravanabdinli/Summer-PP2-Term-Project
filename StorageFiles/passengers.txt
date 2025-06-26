@@ -1,0 +1,12 @@
+1;Zakir Aghakihsiyev;Mir Qasimov;+994555420096;zakirq781@gmail.com;c98329832
+2;Aydan Mammadova;28 May Street;+994503331122;aydan.m@gmail.com;AA1234567
+3;Murad Aliyev;Nizami Avenue;+994507890001;murad.a@hotmail.com;BB9876543
+4;Nigar Karimova;Xetai Avenue;+994502223344;nigar.k@outlook.com;CC5678990
+5;Rovshan Guliyev;Narimanov;+994552223344;rovshan.g@gmail.com;DD7788990
+6;Lala Huseynova;Yasamal District;+994505555666;lala.h@gmail.com;EE1122334
+7;Samir Ibrahimov;Huseyn Javid Ave;+994551112233;samir.i@yahoo.com;FF9988776
+8;Gunel Abbasova;Ahmedli;+994507778899;gunel.a@outlook.com;GG5544332
+9;Kamran Taghiyev;Ganjlik;+994553336677;kamran.t@gmail.com;HH6677889
+10;Ilkin Valiyev;Bayil;+994504441122;ilkin.v@hotmail.com;II3344556
+11;Sevda Rahimova;Bina;+994505551234;sevda.r@gmail.com;JJ2233445
+12;Elvin Rustamov;Masazir;+994509998877;elvin.r@outlook.com;KK7788123

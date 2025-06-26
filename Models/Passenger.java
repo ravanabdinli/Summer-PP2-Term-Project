@@ -2,7 +2,7 @@ package Models;
 
 public class Passenger {
 
-    private static int _autoIncId=1;
+    private static int _autoIncId = 1;
     private int id;
     private String name;
     private String address;
@@ -11,12 +11,25 @@ public class Passenger {
     private String passportNumber;
 
     public Passenger(String name, String address, String phoneNumber, String email, String passportNumber) {
-        this.id=_autoIncId++;
+        this.id = _autoIncId++;
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.passportNumber = passportNumber;
+    }
+
+    public Passenger(int id, String name, String address, String phoneNumber, String email, String passportNumber) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.passportNumber = passportNumber;
+    }
+
+    public static void setAutoIncId(int value) {
+        _autoIncId = value;
     }
 
     public int getId() {
@@ -63,5 +76,9 @@ public class Passenger {
         this.passportNumber = passportNumber;
     }
 
-    
+    @Override
+    public String toString() {
+        return id + ";" + name + ";" + address + ";" + phoneNumber + ";" + email + ";" + passportNumber;
+    }
+
 }

@@ -1,8 +1,7 @@
 package StaticMethods;
 
-import java.util.ArrayList;
-
 import Models.Flight;
+import java.util.ArrayList;
 
 //     private int id;
 //     private String flightNumber;
@@ -15,6 +14,10 @@ import Models.Flight;
 
 public class FlightPrinter {
     public static void FlightArrayListPrinter(ArrayList<Flight> flights){
+        System.out.println("-".repeat(127));
+        var text = "| Number of Flights: " + flights.size();
+        var spaceLeft=127-text.length();
+        System.out.println(text+" ".repeat(spaceLeft-1)+"|");
         System.out.println("-".repeat(127));
         System.out.println("| ID | Flight Number |    Origin    |  Destination  |    Departure Time    |     Arrival Time     |  Price  | Available Seats |");
         System.out.println("-".repeat(127));
