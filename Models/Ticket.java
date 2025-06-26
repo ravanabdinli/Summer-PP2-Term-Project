@@ -1,6 +1,10 @@
 package Models;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Ticket {
-    private static int _autoIncId=1;
+    private static int _autoIncId = 1;
     private int id;
     private String seatNumber;
     private String issueDate;
@@ -15,6 +19,24 @@ public class Ticket {
         this.totalCost = totalCost;
         this.flightId = flightId;
         this.passengerId = passengerId;
+    }
+
+    public Ticket(String seatNumber, double totalCost, int flightId, int passengerId) {
+        this.id = _autoIncId;
+        this.seatNumber = seatNumber;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        this.issueDate = LocalDateTime.now().format(formatter);        
+        this.totalCost = totalCost;
+        this.flightId = flightId;
+        this.passengerId = passengerId;
+    }
+
+    public static void setAutoIncId(int id) {
+        _autoIncId = id;
+    }
+
+    public static int getAutoIncId() {
+        return _autoIncId;
     }
 
     public int getId() {
@@ -65,6 +87,14 @@ public class Ticket {
         this.passengerId = passengerId;
     }
 
-    
-    
+    @Override
+    public String toString() {
+        return id + ";" +
+                seatNumber + ";" +
+                issueDate + ";" +
+                totalCost + ";" +
+                flightId + ";" +
+                passengerId;
+    }
+
 }
