@@ -9,7 +9,7 @@ public class FlightService {
     private final String FILE_PATH = "StorageFiles/flights.txt";
     private Scanner sc = new Scanner(System.in);
 
-    private ArrayList<Flight> loadFlights() {
+    ArrayList<Flight> loadFlights() {
         var flights = new ArrayList<Flight>();
         File file = new File(FILE_PATH);
         int maxId = 0;
@@ -60,7 +60,7 @@ public class FlightService {
         }
     }
 
-    private void saveFlights(ArrayList<Flight> flights) {
+    void saveFlights(ArrayList<Flight> flights) {
         ensureStoragePath();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
             for (Flight flight : flights) {
