@@ -226,15 +226,15 @@ public class TicketService {
         }
     }
 
-    public ArrayList<Ticket> getAll(){
+    public ArrayList<Ticket> getAll() {
         return loadTickets();
     }
 
-    public Ticket getById(int id){
+    public Ticket getById(int id) {
         return loadTickets().stream()
-                            .filter(f -> f.getId() == id)
-                            .findFirst()
-                            .orElse(null);
+                .filter(f -> f.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     public ArrayList<Ticket> filter(Predicate<Ticket> predicate) {
@@ -247,5 +247,38 @@ public class TicketService {
         return result;
     }
 
-    //filter based on dest origin logic elave ele
+    public ArrayList<Ticket> filterByFlightAndPassenger(
+        String flightNumber, String origin, String destination, String passportNumber) {
+        var tickets = loadTickets();
+        var flightService = new FlightService();
+        var passengerService = new PassengerService();
+
+        var flights = flightService.GetAll();
+        var passengers = passengerService.getAll();
+
+        ArrayList<Ticket> result = new ArrayList<>();
+
+        for (Ticket ticket : tickets) {
+            var matchingFlight = flights.get(ticket.getFlightId());
+            var matchingPassenger = passengers.stream()
+                    .filter(p -> p.getId() == ticket.getPassengerId())
+                    .findFirst()
+                    .orElse(null);
+
+            boolean matchFlight = (flightNumber == null
+                    || matchingFlight.getFlightNumber().equalsIgnoreCase(flightNumber)) &&
+                    (origin == null || matchingFlight.getOrigin().equalsIgnoreCase(origin)) &&
+                    (destination == null || matchingFlight.getDestination().equalsIgnoreCase(destination));
+
+            boolean matchPassenger = (passportNumber == null ||
+                    (matchingPassenger != null
+                            && matchingPassenger.getPassportNumber().equalsIgnoreCase(passportNumber)));
+
+            if (matchFlight && matchPassenger) {
+                result.add(ticket);
+            }
+        }
+
+        return result;
+    }
 }
