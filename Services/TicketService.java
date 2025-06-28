@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
+import Models.Flight;
 import Models.Passenger;
 import Models.Ticket;
 
@@ -107,7 +108,6 @@ public class TicketService {
         // }
         // }
 
-        System.out.print("Enter Passport Number: ");
         String passportNumber;
         int passengerId;
 
@@ -130,8 +130,40 @@ public class TicketService {
         var createdTicket = new Ticket(seatNumber, price, flightId, passengerId);
         System.out.println("Ticket is purchased. Your ticket ID: " + createdTicket.getId());
 
-        var numberOfSeats = flight.getAvailableSeats();
-        flight.setAvailableSeats(numberOfSeats - 1);
+        // var numberOfSeats = flight.getAvailableSeats();
+        // flight.setAvailableSeats(numberOfSeats - 1);
+        decreaseAvailableSeats(flightId);
+        var tickets = loadTickets();
+        tickets.add(createdTicket);
+        saveTickets(tickets);
+
+    }
+
+    void decreaseAvailableSeats(int flightId) {
+        var flightService = new FlightService();
+        var flights = flightService.loadFlights();
+        boolean updated = false;
+
+        for (Flight flight : flights) {
+            if (flight.getId() == flightId) {
+                int currentSeats = flight.getAvailableSeats();
+                if (currentSeats > 0) {
+                    flight.setAvailableSeats(currentSeats - 1);
+                    updated = true;
+                    break;
+                } else {
+                    System.out.println("No available seats left for flight ID: " + flightId);
+                    return;
+                }
+            }
+        }
+
+        if (updated) {
+            flightService.saveFlights(flights);
+            System.out.println("Available seats decreased for flight ID: " + flightId);
+        } else {
+            System.out.println("Flight with ID " + flightId + " not found.");
+        }
     }
 
     private int getPassengerId(String passportNumber) {
@@ -149,16 +181,44 @@ public class TicketService {
 
     public void delete(int id) {
         var tickets = loadTickets();
+        var flightId = tickets.stream()
+                      .filter(x -> x.getId() == id)
+                      .findFirst()
+                      .map(t -> t.getFlightId())
+                      .orElse(-1);  
+
         boolean removed = tickets.removeIf(t -> t.getId() == id);
         if (removed) {
             saveTickets(tickets);
             System.out.println("Ticket with ID " + id + " removed successfully.");
-            var flightService = new FlightService();
-            var flight = flightService.GetAll().get(tickets.get(id).getFlightId());
-            var nSeats = flight.getAvailableSeats();
-            flight.setAvailableSeats(nSeats + 1);
+            increaseAvailableSeats(flightId);
+            // var flightService = new FlightService();
+            // var flight = flightService.GetAll().get(tickets.get(id).getFlightId());
+            // var nSeats = flight.getAvailableSeats();
+            // flight.setAvailableSeats(nSeats + 1);
         } else {
             System.out.println("Ticket with ID " + id + " not found.");
+        }
+    }
+
+    public void increaseAvailableSeats(int flightId) {
+        var flightService = new FlightService();
+        var flights = flightService.loadFlights();
+        boolean updated = false;
+
+        for (Flight flight : flights) {
+            if (flight.getId() == flightId) {
+                flight.setAvailableSeats(flight.getAvailableSeats() + 1);
+                updated = true;
+                break;
+            }
+        }
+
+        if (updated) {
+            flightService.saveFlights(flights);
+            System.out.println("Available seats increased for flight ID: " + flightId);
+        } else {
+            System.out.println("Flight with ID " + flightId + " not found.");
         }
     }
 
@@ -248,7 +308,7 @@ public class TicketService {
     }
 
     public ArrayList<Ticket> filterByFlightAndPassenger(
-        String flightNumber, String origin, String destination, String passportNumber) {
+            String flightNumber, String origin, String destination, String passportNumber) {
         var tickets = loadTickets();
         var flightService = new FlightService();
         var passengerService = new PassengerService();
