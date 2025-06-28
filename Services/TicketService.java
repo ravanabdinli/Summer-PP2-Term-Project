@@ -6,12 +6,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
-import Models.Flight;
 import Models.Passenger;
 import Models.Ticket;
 
