@@ -17,7 +17,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         var flightService = new FlightService();
         var passengerService = new PassengerService();
-        var ticketService=new TicketService();
+        var ticketService = new TicketService();
         String field;
 
         while (true) {
@@ -40,7 +40,7 @@ public class Main {
         }
     }
 
-    public static void ticketMenu(TicketService ticketService, Scanner sc) {
+    private static void ticketMenu(TicketService ticketService, Scanner sc) {
         ticket_menu: while (true) {
             System.out.println("\nChoose an action:");
             System.out.println("1. Create Ticket");
@@ -49,6 +49,7 @@ public class Main {
             System.out.println("4. See All Tickets (Full)");
             System.out.println("5. Remove a Ticket");
             System.out.println("6. Filtered Search");
+            System.out.println("7. Sort Tickets");
             System.out.println("0. Back");
 
             String userChoice = sc.nextLine();
@@ -58,6 +59,7 @@ public class Main {
                     ticketService.create();
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
 
                 case "2":
@@ -67,18 +69,21 @@ public class Main {
                     ticketService.update(updateId);
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
 
                 case "3":
                     TicketPrinter.printAllBasic(ticketService.getAll());
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
 
                 case "4":
                     TicketPrinter.printAllFull(ticketService.getAll());
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
 
                 case "5":
@@ -88,6 +93,7 @@ public class Main {
                     ticketService.delete(deleteId);
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
 
                 case "6":
@@ -162,19 +168,30 @@ public class Main {
                         }
                         System.out.println("Press Enter to continue...");
                         sc.nextLine();
+                        clearScreen();
                     }
-
+                case "7":
+                    var sorted = ticketService.sortTickets();
+                    TicketPrinter.printAllFull(sorted);
+                    System.out.println("Press Enter to continue...");
+                    sc.nextLine();
+                    clearScreen();
+                break;
                 case "0":
+                    clearScreen();
                     break ticket_menu;
 
                 default:
                     System.out.println("Invalid input.");
+                    System.out.println("Press Enter to continue...");
+                    sc.nextLine();
+                    clearScreen();
                     break;
             }
         }
     }
 
-    public static void passengerMenu(PassengerService passengerService, Scanner sc) {
+    private static void passengerMenu(PassengerService passengerService, Scanner sc) {
         passenger_menu: while (true) {
             System.out.println("Choose an action:");
             System.out.println("1. Create Passenger");
@@ -183,6 +200,7 @@ public class Main {
             System.out.println("4. Remove a Passenger");
             System.out.println("5. Search for Passengers");
             System.out.println("6. Filtered Search");
+            System.out.println("7. Sort Passengers");
             System.out.println("0. Back");
 
             var userChoice = sc.nextLine();
@@ -191,6 +209,7 @@ public class Main {
                     passengerService.createPassenger();
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
                 case "2":
                     System.out.print("ID of the passenger: ");
@@ -199,12 +218,14 @@ public class Main {
                     passengerService.updatePassenger(updateId);
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
                 case "3":
                     var allPassengers = passengerService.getAll();
                     PassengerPrinter.PrintAll(allPassengers);
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
                 case "4":
                     System.out.print("ID of the passenger: ");
@@ -213,12 +234,14 @@ public class Main {
                     passengerService.deletePassenger(deleteId);
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
                 case "5":
                     var results = passengerService.searchPassengerByName();
                     PassengerPrinter.PrintAll(results);
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
                 case "6":
                     while (true) {
@@ -279,18 +302,30 @@ public class Main {
                         }
                         System.out.println("Press Enter to continue...");
                         sc.nextLine();
+                        clearScreen();
                     }
+
+                case "7":
+                    var sorted = passengerService.sortPassengers();
+                    PassengerPrinter.PrintAll(sorted);
+                    System.out.println("Press enter to continue...");
+                    sc.nextLine();
+                    clearScreen();
+                    break;
 
                 case "0":
                     break passenger_menu;
                 default:
                     System.out.println("Invalid input.");
+                    System.out.println("Press Enter to continue...");
+                    sc.nextLine();
+                    clearScreen();
                     break;
             }
         }
     }
 
-    public static void flightMenu(FlightService flightService, Scanner sc) {
+    private static void flightMenu(FlightService flightService, Scanner sc) {
         flight_menu: while (true) {
             System.out.println("Choose an action:");
             System.out.println("1. Create Flight");
@@ -299,6 +334,7 @@ public class Main {
             System.out.println("4. Remove a Flight");
             System.out.println("5. Search for Flights");
             System.out.println("6. Filtered Search");
+            System.out.println("7. Sort Flights");
             System.out.println("0. Back");
 
             var userChoice = sc.nextLine();
@@ -307,6 +343,7 @@ public class Main {
                     flightService.create();
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
                 case "2":
                     System.out.print("Id of the flight: ");
@@ -315,12 +352,14 @@ public class Main {
                     flightService.update(updateId);
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
                 case "3":
                     var allFlights = flightService.GetAll();
                     FlightPrinter.FlightArrayListPrinter(allFlights);
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
                 case "4":
                     System.out.print("Id of the flight: ");
@@ -329,6 +368,7 @@ public class Main {
                     flightService.delete(deleteId);
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
                 case "5":
                     System.out.println("Choose one of the following:");
@@ -346,6 +386,7 @@ public class Main {
                     }
                     System.out.println("Press enter to continue...");
                     sc.nextLine();
+                    clearScreen();
                     break;
                 case "6":
                     while (true) {
@@ -430,6 +471,9 @@ public class Main {
                                 continue flight_menu;
                             default:
                                 System.out.println("Invalid choice.");
+                                System.out.println("Press Enter to continue...");
+                                sc.nextLine();
+                                clearScreen();
                                 continue;
                         }
 
@@ -440,14 +484,44 @@ public class Main {
                         }
                         System.out.println("Press Enter to continue...");
                         sc.nextLine();
+                        clearScreen();
                     }
+                case "7":
+                    ArrayList<Flight> sortedFlights = flightService.sortFlights();
+                    if (!sortedFlights.isEmpty()) {
+                        FlightPrinter.FlightArrayListPrinter(sortedFlights);
+                    } else {
+                        System.out.println("No flights to display.");
+                    }
+                    System.out.println("Press Enter to continue...");
+                    sc.nextLine();
+                    clearScreen();
+                    break;
 
                 case "0":
                     break flight_menu;
                 default:
                     System.out.println("Invalid input.");
+                    System.out.println("Press Enter to continue...");
+                    sc.nextLine();
+                    clearScreen();
                     break;
             }
+        }
+    }
+
+    public static void clearScreen() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J"); // ANSI escape code
+                System.out.flush();
+            }
+        } catch (Exception e) {
+            // Fallback: print many new lines
+            for (int i = 0; i < 50; i++)
+                System.out.println();
         }
     }
 

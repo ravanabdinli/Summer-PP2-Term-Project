@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
@@ -230,6 +231,67 @@ public class PassengerService {
             }
         }
         return result;
+    }
+
+    public ArrayList<Passenger> sortPassengers() {
+        var passengers = loadPassengers();
+        if (passengers.isEmpty()) {
+            System.out.println("No passengers available to sort.");
+            return passengers;
+        }
+
+        System.out.println("\nSort Passengers By:");
+        System.out.println("1. Name");
+        System.out.println("2. Address");
+        System.out.println("3. Phone Number");
+        System.out.println("4. Email");
+        System.out.println("5. Passport Number");
+        System.out.print("Choose an option (1-5): ");
+        String choice = sc.nextLine();
+
+        System.out.print("Sort Direction (asc/desc): ");
+        String direction = sc.nextLine().toLowerCase();
+        boolean ascending = direction.equals("asc");
+
+        Comparator<Passenger> comparator;
+
+        switch (choice) {
+            case "1":
+                comparator = Comparator.comparing(Passenger::getName, String.CASE_INSENSITIVE_ORDER);
+                break;
+            case "2":
+                comparator = Comparator.comparing(Passenger::getAddress, String.CASE_INSENSITIVE_ORDER);
+                break;
+            case "3":
+                comparator = Comparator.comparing(Passenger::getPhoneNumber);
+                break;
+            case "4":
+                comparator = Comparator.comparing(Passenger::getEmail, String.CASE_INSENSITIVE_ORDER);
+                break;
+            case "5":
+                comparator = Comparator.comparing(Passenger::getPassportNumber);
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                return passengers;
+        }
+
+        if (!ascending) {
+            comparator = comparator.reversed();
+        }
+
+        passengers.sort(comparator);
+
+        System.out.print("Do you want to save the sorted list to file? (yes/no): ");
+        String saveChoice = sc.nextLine().trim().toLowerCase();
+        if (saveChoice.equals("yes") || saveChoice.equals("y")) {
+            savePassengers(passengers);
+            System.out.println("Sorted passenger list saved successfully.");
+        } else {
+            System.out.println("Sorted passenger list was not saved.");
+        }
+
+        return passengers;
     }
 
 }

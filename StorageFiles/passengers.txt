@@ -10,3 +10,4 @@
 10;Ilkin Valiyev;Bayil;+994504441122;ilkin.v@hotmail.com;II3344556
 11;Sevda Rahimova;Bina;+994505551234;sevda.r@gmail.com;JJ2233445
 12;Elvin Rustamov;Masazir;+994509998877;elvin.r@outlook.com;KK7788123
+13;Ravan Abdinli;Malik Memmedov;+994555555555;rabdinli@ada.edu.az;C23456789

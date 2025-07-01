@@ -9,7 +9,7 @@ public class FlightService {
     private final String FILE_PATH = "StorageFiles/flights.txt";
     private Scanner sc = new Scanner(System.in);
 
-    private ArrayList<Flight> loadFlights() {
+    ArrayList<Flight> loadFlights() {
         var flights = new ArrayList<Flight>();
         File file = new File(FILE_PATH);
         int maxId = 0;
@@ -34,14 +34,16 @@ public class FlightService {
                         double price = Double.parseDouble(parts[6]);
                         int availableSeats = Integer.parseInt(parts[7]);
 
-                        Flight flight = new Flight(id, flightNumber, origin, destination, departureTime, arrivalTime, price, availableSeats);
+                        Flight flight = new Flight(id, flightNumber, origin, destination, departureTime, arrivalTime,
+                                price, availableSeats);
                         flights.add(flight);
 
                         if (id > maxId) {
                             maxId = id;
                         }
                     } catch (NumberFormatException e) {
-                        System.err.println("Skipping malformed line in flights file: " + line + " - Error: " + e.getMessage());
+                        System.err.println(
+                                "Skipping malformed line in flights file: " + line + " - Error: " + e.getMessage());
                     }
                 }
             }
@@ -60,7 +62,7 @@ public class FlightService {
         }
     }
 
-    private void saveFlights(ArrayList<Flight> flights) {
+    void saveFlights(ArrayList<Flight> flights) {
         ensureStoragePath();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
             for (Flight flight : flights) {
@@ -135,7 +137,8 @@ public class FlightService {
             }
         }
 
-        Flight flight = new Flight(flightNumber, origin, destination, departureTime, arrivalTime, price, availableSeats);
+        Flight flight = new Flight(flightNumber, origin, destination, departureTime, arrivalTime, price,
+                availableSeats);
         flights.add(flight);
         saveFlights(flights);
         System.out.println("Flight added successfully with ID: " + flight.getId());
@@ -155,9 +158,9 @@ public class FlightService {
     public void update(int id) {
         var flights = loadFlights();
         Flight flight = flights.stream()
-                               .filter(f -> f.getId() == id)
-                               .findFirst()
-                               .orElse(null);
+                .filter(f -> f.getId() == id)
+                .findFirst()
+                .orElse(null);
 
         if (flight == null) {
             System.out.println("Flight with ID " + id + " not found.");
@@ -165,7 +168,8 @@ public class FlightService {
         }
 
         while (true) {
-            System.out.println("\n--- Update Flight (ID: " + flight.getId() + ", Flight Number: " + flight.getFlightNumber() + ") ---");
+            System.out.println("\n--- Update Flight (ID: " + flight.getId() + ", Flight Number: "
+                    + flight.getFlightNumber() + ") ---");
             System.out.println("1. Flight Number (" + flight.getFlightNumber() + ")");
             System.out.println("2. Origin (" + flight.getOrigin() + ")");
             System.out.println("3. Destination (" + flight.getDestination() + ")");
@@ -268,9 +272,9 @@ public class FlightService {
 
     public Flight getById(int id) {
         return loadFlights().stream()
-                            .filter(f -> f.getId() == id)
-                            .findFirst()
-                            .orElse(null);
+                .filter(f -> f.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     public ArrayList<Flight> searchByDestination() {
@@ -308,4 +312,74 @@ public class FlightService {
         }
         return result;
     }
+
+    public ArrayList<Flight> sortFlights() {
+        var flights = loadFlights();
+        if (flights.isEmpty()) {
+            System.out.println("No flights available to sort.");
+            return flights;
+        }
+
+        System.out.println("\nSort Flights By:");
+        System.out.println("1. Flight Number");
+        System.out.println("2. Origin");
+        System.out.println("3. Destination");
+        System.out.println("4. Departure Time");
+        System.out.println("5. Arrival Time");
+        System.out.println("6. Price");
+        System.out.println("7. Available Seats");
+        System.out.print("Choose an option (1-7): ");
+        String choice = sc.nextLine();
+
+        System.out.print("Sort Direction (asc/desc): ");
+        String direction = sc.nextLine().toLowerCase();
+        boolean ascending = direction.equals("asc");
+
+        Comparator<Flight> comparator;
+
+        switch (choice) {
+            case "1":
+                comparator = Comparator.comparing(Flight::getFlightNumber, String.CASE_INSENSITIVE_ORDER);
+                break;
+            case "2":
+                comparator = Comparator.comparing(Flight::getOrigin, String.CASE_INSENSITIVE_ORDER);
+                break;
+            case "3":
+                comparator = Comparator.comparing(Flight::getDestination, String.CASE_INSENSITIVE_ORDER);
+                break;
+            case "4":
+                comparator = Comparator.comparing(Flight::getDepartureTime);
+                break;
+            case "5":
+                comparator = Comparator.comparing(Flight::getArrivalTime);
+                break;
+            case "6":
+                comparator = Comparator.comparingDouble(Flight::getPrice);
+                break;
+            case "7":
+                comparator = Comparator.comparingInt(Flight::getAvailableSeats);
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                return flights;
+        }
+
+        if (!ascending) {
+            comparator = comparator.reversed();
+        }
+
+        flights.sort(comparator);
+
+        System.out.print("Do you want to save the sorted list to file? (yes/no): ");
+        String saveChoice = sc.nextLine().trim().toLowerCase();
+        if (saveChoice.equals("yes") || saveChoice.equals("y")) {
+            saveFlights(flights);
+            System.out.println("Sorted flight list saved successfully.");
+        } else {
+            System.out.println("Sorted flight list was not saved.");
+        }
+
+        return flights;
+    }
+    
 }

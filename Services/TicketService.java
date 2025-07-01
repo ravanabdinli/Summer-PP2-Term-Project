@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
@@ -182,10 +183,10 @@ public class TicketService {
     public void delete(int id) {
         var tickets = loadTickets();
         var flightId = tickets.stream()
-                      .filter(x -> x.getId() == id)
-                      .findFirst()
-                      .map(t -> t.getFlightId())
-                      .orElse(-1);  
+                .filter(x -> x.getId() == id)
+                .findFirst()
+                .map(t -> t.getFlightId())
+                .orElse(-1);
 
         boolean removed = tickets.removeIf(t -> t.getId() == id);
         if (removed) {
@@ -341,4 +342,64 @@ public class TicketService {
 
         return result;
     }
+
+    public ArrayList<Ticket> sortTickets() {
+        var tickets = loadTickets();
+        if (tickets.isEmpty()) {
+            System.out.println("No tickets available to sort.");
+            return tickets;
+        }
+
+        System.out.println("\nSort Tickets By:");
+        System.out.println("1. Seat Number");
+        System.out.println("2. Issue Date");
+        System.out.println("3. Total Cost");
+        System.out.println("4. Flight ID");
+        System.out.println("5. Passenger ID");
+        System.out.print("Choose an option (1-5): ");
+        String choice = sc.nextLine();
+
+        System.out.print("Sort Direction (asc/desc): ");
+        String direction = sc.nextLine().toLowerCase();
+        boolean ascending = direction.equals("asc");
+
+        Comparator<Ticket> comparator;
+
+        switch (choice) {
+            case "1":
+                comparator = Comparator.comparing(Ticket::getSeatNumber, String.CASE_INSENSITIVE_ORDER);
+                break;
+            case "2":
+                comparator = Comparator.comparing(Ticket::getIssueDate);
+                break;
+            case "3":
+                comparator = Comparator.comparingDouble(Ticket::getTotalCost);
+                break;
+            case "4":
+                comparator = Comparator.comparingInt(Ticket::getFlightId);
+                break;
+            case "5":
+                comparator = Comparator.comparingInt(Ticket::getPassengerId);
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                return tickets;
+        }
+
+        if (!ascending) {
+            comparator = comparator.reversed();
+        }
+
+        tickets.sort(comparator);
+
+        System.out.print("Do you want to save the sorted list (yes/no)? ");
+        String saveChoice = sc.nextLine().toLowerCase();
+        if (saveChoice.equals("yes")) {
+            saveTickets(tickets);
+            System.out.println("Tickets saved in sorted order.");
+        }
+
+        return tickets;
+    }
+
 }
