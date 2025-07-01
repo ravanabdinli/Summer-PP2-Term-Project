@@ -1,19 +1,23 @@
 import Services.FlightService;
 import Services.PassengerService;
+import Services.TicketService;
 import StaticMethods.FlightPrinter;
 import StaticMethods.PassengerPrinter;
+import StaticMethods.TicketPrinter;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import Models.Flight;
 import Models.Passenger;
+import Models.Ticket;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         var flightService = new FlightService();
-        var passengerService=new PassengerService();
+        var passengerService = new PassengerService();
+        var ticketService=new TicketService();
         String field;
 
         while (true) {
@@ -24,17 +28,154 @@ public class Main {
 
             field = sc.nextLine();
 
-            if (field.equals("1")) flightMenu(flightService, sc);
-            else if(field.equals("2")) passengerMenu(passengerService, sc);
+            if (field.equals("1"))
+                flightMenu(flightService, sc);
+            else if (field.equals("2"))
+                passengerMenu(passengerService, sc);
+            else if (field.equals("3"))
+                ticketMenu(ticketService, sc);
             else {
                 System.out.println("Invalid Input");
             }
         }
     }
 
+    public static void ticketMenu(TicketService ticketService, Scanner sc) {
+        ticket_menu: while (true) {
+            System.out.println("\nChoose an action:");
+            System.out.println("1. Create Ticket");
+            System.out.println("2. Update Ticket");
+            System.out.println("3. See All Tickets (Basic)");
+            System.out.println("4. See All Tickets (Full)");
+            System.out.println("5. Remove a Ticket");
+            System.out.println("6. Filtered Search");
+            System.out.println("0. Back");
+
+            String userChoice = sc.nextLine();
+
+            switch (userChoice) {
+                case "1":
+                    ticketService.create();
+                    System.out.println("Press enter to continue...");
+                    sc.nextLine();
+                    break;
+
+                case "2":
+                    System.out.print("ID of the ticket: ");
+                    int updateId = sc.nextInt();
+                    sc.nextLine();
+                    ticketService.update(updateId);
+                    System.out.println("Press enter to continue...");
+                    sc.nextLine();
+                    break;
+
+                case "3":
+                    TicketPrinter.printAllBasic(ticketService.getAll());
+                    System.out.println("Press enter to continue...");
+                    sc.nextLine();
+                    break;
+
+                case "4":
+                    TicketPrinter.printAllFull(ticketService.getAll());
+                    System.out.println("Press enter to continue...");
+                    sc.nextLine();
+                    break;
+
+                case "5":
+                    System.out.print("ID of the ticket: ");
+                    int deleteId = sc.nextInt();
+                    sc.nextLine();
+                    ticketService.delete(deleteId);
+                    System.out.println("Press enter to continue...");
+                    sc.nextLine();
+                    break;
+
+                case "6":
+                    while (true) {
+                        System.out.println("\n--- Filter Tickets By ---");
+                        System.out.println("1. Flight Number");
+                        System.out.println("2. Origin");
+                        System.out.println("3. Destination");
+                        System.out.println("4. Passenger Passport Number");
+                        System.out.println("5. Combine Filters");
+                        System.out.println("0. Back");
+                        System.out.print("Your choice: ");
+                        String filterChoice = sc.nextLine();
+
+                        ArrayList<Ticket> filtered = new ArrayList<>();
+
+                        switch (filterChoice) {
+                            case "1":
+                                System.out.print("Enter flight number: ");
+                                String flightNumber = sc.nextLine();
+                                filtered = ticketService.filterByFlightAndPassenger(flightNumber, null, null, null);
+                                break;
+                            case "2":
+                                System.out.print("Enter origin: ");
+                                String origin = sc.nextLine();
+                                filtered = ticketService.filterByFlightAndPassenger(null, origin, null, null);
+                                break;
+                            case "3":
+                                System.out.print("Enter destination: ");
+                                String destination = sc.nextLine();
+                                filtered = ticketService.filterByFlightAndPassenger(null, null, destination, null);
+                                break;
+                            case "4":
+                                System.out.print("Enter passport number: ");
+                                String passport = sc.nextLine();
+                                filtered = ticketService.filterByFlightAndPassenger(null, null, null, passport);
+                                break;
+                            case "5":
+                                System.out.print("Flight Number (or press Enter to skip): ");
+                                String fNum = sc.nextLine().trim();
+                                if (fNum.isEmpty())
+                                    fNum = null;
+
+                                System.out.print("Origin (or press Enter to skip): ");
+                                String ori = sc.nextLine().trim();
+                                if (ori.isEmpty())
+                                    ori = null;
+
+                                System.out.print("Destination (or press Enter to skip): ");
+                                String dest = sc.nextLine().trim();
+                                if (dest.isEmpty())
+                                    dest = null;
+
+                                System.out.print("Passport Number (or press Enter to skip): ");
+                                String pNum = sc.nextLine().trim();
+                                if (pNum.isEmpty())
+                                    pNum = null;
+
+                                filtered = ticketService.filterByFlightAndPassenger(fNum, ori, dest, pNum);
+                                break;
+                            case "0":
+                                continue ticket_menu;
+                            default:
+                                System.out.println("Invalid choice.");
+                                continue;
+                        }
+
+                        if (filtered.isEmpty()) {
+                            System.out.println("No tickets matched the filter.");
+                        } else {
+                            TicketPrinter.printAllFull(filtered);
+                        }
+                        System.out.println("Press Enter to continue...");
+                        sc.nextLine();
+                    }
+
+                case "0":
+                    break ticket_menu;
+
+                default:
+                    System.out.println("Invalid input.");
+                    break;
+            }
+        }
+    }
+
     public static void passengerMenu(PassengerService passengerService, Scanner sc) {
-        passenger_menu:
-        while (true) {
+        passenger_menu: while (true) {
             System.out.println("Choose an action:");
             System.out.println("1. Create Passenger");
             System.out.println("2. Update Passenger");
@@ -97,27 +238,32 @@ public class Main {
                             case "1":
                                 System.out.print("Enter name keyword: ");
                                 String name = sc.nextLine().toLowerCase();
-                                filtered = passengerService.filterPassengers(p -> p.getName().toLowerCase().contains(name));
+                                filtered = passengerService
+                                        .filterPassengers(p -> p.getName().toLowerCase().contains(name));
                                 break;
                             case "2":
                                 System.out.print("Enter address keyword: ");
                                 String address = sc.nextLine().toLowerCase();
-                                filtered = passengerService.filterPassengers(p -> p.getAddress().toLowerCase().contains(address));
+                                filtered = passengerService
+                                        .filterPassengers(p -> p.getAddress().toLowerCase().contains(address));
                                 break;
                             case "3":
                                 System.out.print("Enter phone prefix: ");
                                 String phonePrefix = sc.nextLine();
-                                filtered = passengerService.filterPassengers(p -> p.getPhoneNumber().startsWith(phonePrefix));
+                                filtered = passengerService
+                                        .filterPassengers(p -> p.getPhoneNumber().startsWith(phonePrefix));
                                 break;
                             case "4":
                                 System.out.print("Enter email domain (e.g., gmail.com): ");
                                 String domain = sc.nextLine().toLowerCase();
-                                filtered = passengerService.filterPassengers(p -> p.getEmail().toLowerCase().endsWith(domain));
+                                filtered = passengerService
+                                        .filterPassengers(p -> p.getEmail().toLowerCase().endsWith(domain));
                                 break;
                             case "5":
                                 System.out.print("Enter passport keyword: ");
                                 String passport = sc.nextLine().toLowerCase();
-                                filtered = passengerService.filterPassengers(p -> p.getPassportNumber().toLowerCase().contains(passport));
+                                filtered = passengerService
+                                        .filterPassengers(p -> p.getPassportNumber().toLowerCase().contains(passport));
                                 break;
                             case "0":
                                 continue passenger_menu;
@@ -145,8 +291,7 @@ public class Main {
     }
 
     public static void flightMenu(FlightService flightService, Scanner sc) {
-        flight_menu:
-        while (true) {
+        flight_menu: while (true) {
             System.out.println("Choose an action:");
             System.out.println("1. Create Flight");
             System.out.println("2. Update Flight");
