@@ -104,8 +104,22 @@ public class PassengerService {
             System.out.print("Invalid email format. Please enter a valid email: ");
         }
 
-        System.out.print("Enter Passport Number: ");
-        String passportNumber = sc.nextLine();
+        String passportNumber;
+        while (true) {
+            System.out.print("Enter Passport Number: ");
+            String input = sc.nextLine();
+
+            boolean exists = passengers.stream()
+                    .anyMatch(p -> p.getPassportNumber().equalsIgnoreCase(input));
+
+            if (exists) {
+                System.out
+                        .println("A passenger with this passport number already exists. Please enter a different one.");
+            } else {
+                passportNumber = input;
+                break;
+            }
+        }
 
         Passenger passenger = new Passenger(name, address, phoneNumber, email, passportNumber);
         passengers.add(passenger);
@@ -114,10 +128,12 @@ public class PassengerService {
     }
 
     public void deletePassenger(int id) {
+        var ticketService=new TicketService();
         var passengers = loadPassengers();
         boolean removed = passengers.removeIf(p -> p.getId() == id);
         if (removed) {
             savePassengers(passengers);
+            ticketService.deleteTicketsByPassengerId(id);
             System.out.println("Passenger with ID " + id + " removed successfully.");
         } else {
             System.out.println("Passenger with ID " + id + " not found.");

@@ -28,13 +28,16 @@ public class Main {
 
             field = sc.nextLine();
 
-            if (field.equals("1"))
+            if (field.equals("1")) {
+                clearScreen();
                 flightMenu(flightService, sc);
-            else if (field.equals("2"))
+            } else if (field.equals("2")) {
+                clearScreen();
                 passengerMenu(passengerService, sc);
-            else if (field.equals("3"))
+            } else if (field.equals("3")) {
+                clearScreen();
                 ticketMenu(ticketService, sc);
-            else {
+            } else {
                 System.out.println("Invalid Input");
             }
         }
@@ -155,6 +158,7 @@ public class Main {
                                 filtered = ticketService.filterByFlightAndPassenger(fNum, ori, dest, pNum);
                                 break;
                             case "0":
+                                clearScreen();
                                 continue ticket_menu;
                             default:
                                 System.out.println("Invalid choice.");
@@ -176,7 +180,7 @@ public class Main {
                     System.out.println("Press Enter to continue...");
                     sc.nextLine();
                     clearScreen();
-                break;
+                    break;
                 case "0":
                     clearScreen();
                     break ticket_menu;
@@ -211,6 +215,7 @@ public class Main {
                     sc.nextLine();
                     clearScreen();
                     break;
+
                 case "2":
                     System.out.print("ID of the passenger: ");
                     int updateId = sc.nextInt();
@@ -220,6 +225,7 @@ public class Main {
                     sc.nextLine();
                     clearScreen();
                     break;
+
                 case "3":
                     var allPassengers = passengerService.getAll();
                     PassengerPrinter.PrintAll(allPassengers);
@@ -227,6 +233,7 @@ public class Main {
                     sc.nextLine();
                     clearScreen();
                     break;
+
                 case "4":
                     System.out.print("ID of the passenger: ");
                     int deleteId = sc.nextInt();
@@ -236,6 +243,7 @@ public class Main {
                     sc.nextLine();
                     clearScreen();
                     break;
+
                 case "5":
                     var results = passengerService.searchPassengerByName();
                     PassengerPrinter.PrintAll(results);
@@ -243,6 +251,7 @@ public class Main {
                     sc.nextLine();
                     clearScreen();
                     break;
+
                 case "6":
                     while (true) {
                         System.out.println("\n--- Filter Passengers By ---");
@@ -264,32 +273,39 @@ public class Main {
                                 filtered = passengerService
                                         .filterPassengers(p -> p.getName().toLowerCase().contains(name));
                                 break;
+
                             case "2":
                                 System.out.print("Enter address keyword: ");
                                 String address = sc.nextLine().toLowerCase();
                                 filtered = passengerService
                                         .filterPassengers(p -> p.getAddress().toLowerCase().contains(address));
                                 break;
+
                             case "3":
                                 System.out.print("Enter phone prefix: ");
                                 String phonePrefix = sc.nextLine();
                                 filtered = passengerService
                                         .filterPassengers(p -> p.getPhoneNumber().startsWith(phonePrefix));
                                 break;
+
                             case "4":
                                 System.out.print("Enter email domain (e.g., gmail.com): ");
                                 String domain = sc.nextLine().toLowerCase();
                                 filtered = passengerService
                                         .filterPassengers(p -> p.getEmail().toLowerCase().endsWith(domain));
                                 break;
+
                             case "5":
                                 System.out.print("Enter passport keyword: ");
                                 String passport = sc.nextLine().toLowerCase();
                                 filtered = passengerService
                                         .filterPassengers(p -> p.getPassportNumber().toLowerCase().contains(passport));
                                 break;
+
                             case "0":
+                                clearScreen();
                                 continue passenger_menu;
+
                             default:
                                 System.out.println("Invalid choice.");
                                 continue;
@@ -314,7 +330,9 @@ public class Main {
                     break;
 
                 case "0":
+                    clearScreen();
                     break passenger_menu;
+
                 default:
                     System.out.println("Invalid input.");
                     System.out.println("Press Enter to continue...");
@@ -443,6 +461,9 @@ public class Main {
                                     filteredFlights = flightService.filter(f -> f.getPrice() <= maxPrice);
                                 } catch (NumberFormatException e) {
                                     System.out.println("Invalid price input.");
+                                    System.out.println("Press Enter to continue...");
+                                    sc.nextLine();
+                                    clearScreen();
                                     continue;
                                 }
                                 break;
@@ -453,6 +474,9 @@ public class Main {
                                     filteredFlights = flightService.filter(f -> f.getPrice() >= minPrice);
                                 } catch (NumberFormatException e) {
                                     System.out.println("Invalid price input.");
+                                    System.out.println("Press Enter to continue...");
+                                    sc.nextLine();
+                                    clearScreen();
                                     continue;
                                 }
                                 break;
@@ -464,10 +488,14 @@ public class Main {
                                             .filter(f -> f.getAvailableSeats() >= minSeats);
                                 } catch (NumberFormatException e) {
                                     System.out.println("Invalid seat input.");
+                                    System.out.println("Press Enter to continue...");
+                                    sc.nextLine();
+                                    clearScreen();
                                     continue;
                                 }
                                 break;
                             case "0":
+                                clearScreen();
                                 continue flight_menu;
                             default:
                                 System.out.println("Invalid choice.");
@@ -499,6 +527,7 @@ public class Main {
                     break;
 
                 case "0":
+                    clearScreen();
                     break flight_menu;
                 default:
                     System.out.println("Invalid input.");
