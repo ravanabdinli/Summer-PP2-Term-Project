@@ -145,15 +145,17 @@ public class FlightService {
     }
 
     public void delete(int id) {
-        var flights = loadFlights();
-        boolean removed = flights.removeIf(f -> f.getId() == id);
-        if (removed) {
-            saveFlights(flights);
-            System.out.println("Flight with ID " + id + " removed successfully.");
-        } else {
-            System.out.println("Flight with ID " + id + " not found.");
-        }
+    var flights = loadFlights();
+    boolean removed = flights.removeIf(f -> f.getId() == id);
+    if (removed) {
+        saveFlights(flights);
+        System.out.println("Flight with ID " + id + " removed successfully.");
+        var ticketService = new TicketService();
+        ticketService.deleteTicketsByFlightId(id);
+    } else {
+        System.out.println("Flight with ID " + id + " not found.");
     }
+}
 
     public void update(int id) {
         var flights = loadFlights();
@@ -381,5 +383,7 @@ public class FlightService {
 
         return flights;
     }
+
+    
     
 }
