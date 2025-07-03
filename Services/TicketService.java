@@ -402,4 +402,22 @@ public class TicketService {
         return tickets;
     }
 
+    public void deleteTicketsByPassengerId(int passengerId) {
+        var tickets = loadTickets();
+        boolean removed = tickets.removeIf(t -> t.getPassengerId() == passengerId);
+        if (removed) {
+            saveTickets(tickets);
+            System.out.println("All tickets for passenger ID " + passengerId + " deleted.");
+        }
+    }
+
+    public void deleteTicketsByFlightId(int flightId) {
+        var tickets = loadTickets();
+        boolean removed = tickets.removeIf(t -> t.getFlightId() == flightId);
+        if (removed) {
+            saveTickets(tickets);
+            System.out.println("All tickets for flight ID " + flightId + " deleted.");
+        }
+    }
+
 }
